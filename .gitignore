@@ -31,3 +31,9 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Negate root bin folder exclusion because by convention it contains express startup scripts
+!/bin/
+
+# IntelliJ project
+.idea/

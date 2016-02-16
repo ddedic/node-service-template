@@ -1,0 +1,15 @@
+{
+  "name": "node-service-template",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "lodash": "^4.4.0",
+    "morgan": "^1.6.1"
+  }
+}
