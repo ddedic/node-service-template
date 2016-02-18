@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var config = {
   db: 'myDb',
   host: 'localhost',
-  user: 'user',
-  pw: 'user',
+  user: '',
+  pw: '',
   port: 27017
 };
 
