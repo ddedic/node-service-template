@@ -1,9 +1,9 @@
 'use strict';
 
 var express = require('express'),
-    _ = require('lodash'),
-    controller = {},
-    thingsStorage = [];
+  _ = require('lodash'),
+  controller = {},
+  thingsStorage = [];
 
 var createNotFoundError = function(message) {
   var err = new Error(message);
