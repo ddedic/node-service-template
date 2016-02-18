@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 // Register routes
 require('./routes')(app);
 
+// Connect to database
+require('./config/db');
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
