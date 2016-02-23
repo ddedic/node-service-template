@@ -1,5 +1,3 @@
-'use strict';
-
 var express = require('express'),
   Router = express.Router,
   Thing = require('./../models/thing'),
