@@ -48,60 +48,23 @@ router.post('/', (req, res, next) => {
 
 // PUT /things/:id
 router.put('/:id', (req, res, next) => {
-  Thing.findById(req.params.id, (err, thing) => {
+  Thing.update({_id: req.body.id}, req.body, { upsert: true }, (err) => {
     if (err) {
       return next(err);
     }
-    if (!thing) {
-      return next(generateNotFoundError());
-    }
 
-    var updated = _.merge(thing, req.body);
-    updated.save((err) => {
-      if (err) {
-        return next(err);
-      }
-      res.send(thing);
-    });
-  });
-});
-
-// PATCH /things/:id
-router.patch('/:id', (req, res, next) => {
-  Thing.findById(req.params.id, (err, thing) => {
-    if (err) {
-      return next(err);
-    }
-    if (!thing) {
-      return next(generateNotFoundError());
-    }
-
-    var updated = _.merge(thing, req.body);
-    updated.save((err) => {
-      if (err) {
-        return next(err);
-      }
-      res.send(thing);
-    });
+    res.status(200).end();
   });
 });
 
 // DELETE /things/:id
 router.delete('/:id', (req, res, next) => {
-  Thing.findById(req.params.id, (err, thing) => {
+  Thing.findByIdAndRemove(req.params.id, (err) => {
     if (err) {
       return next(err);
     }
-    if (!thing) {
-      return next(generateNotFoundError());
-    }
 
-    thing.remove((err) => {
-      if (err) {
-        return next(err);
-      }
-      res.status(204).end();
-    });
+    res.status(204).end();
   });
 });
 
