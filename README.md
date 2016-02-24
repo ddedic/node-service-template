@@ -6,10 +6,33 @@ Skeleton project written in Node.js, using ES6 with [babel](https://babeljs.io/)
 - Mongoose
 - Express
 
+## Run service
+
+*Development:*
+```
+npm install
+npm run build:watch
+npm run start:dev (in new tab)
+```
+
+*Production:*
+```
+npm install
+npm run build
+npm test
+npm start
+```
+
 ## Commands
 
 ```
 npm run build
+```
+
+Transpile source to `./build` folder
+ 
+```
+npm run build:watch
 ```
 
 Transpile source to `./build` folder and `watch` for changes made to source files.
@@ -18,7 +41,13 @@ Transpile source to `./build` folder and `watch` for changes made to source file
 npm start 
 ```
 
-Start the server on port 3000
+Start the server on production, `port 80`.
+
+```
+npm run start:dev 
+```
+
+Start the server on development with nodemon watching for file change to `./build` folder, `port 3000`.
 
 ```
 npm test
@@ -32,7 +61,8 @@ Run tests for project.
 Set these environment variables prior to starting server: 
 
 - `PORT`: Port of the server, defaults to `3000`
-- `DEBUG`: Log messages when set 
+- `NODE_ENV` : Environment in which server is executed, ('dev'|undefined)
+- `DEBUG`: Name of debugging logger
 
 
 ## Editor configuration and linting
