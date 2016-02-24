@@ -1,47 +1,48 @@
-var express = require('express');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+import express from 'express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+import normalizePort from './helpers/normalizePort';
+import favicon from './middlewares/favicon';
 
-var app = express();
+const app = express();
 
+// Middlwares
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(favicon);
+
+// Get port from environment and store in Express.
+app.set('port', normalizePort(process.env.PORT || '3000'));
 
 // Register routes
-require('./routes')(app);
+app.use('/', require('./routes'));
 
-// Connect to database
-require('./config/db');
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+// Catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+// Error handlers
+// Development error handler, will print stacktrace
+if (app.get('NODE_ENV') === 'dev') {
+  app.use((err, req, res) => {
     res.status(err.status || 500);
     res.json({
       message: err.message,
-      error: err
+      error: err,
     });
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+// Production error handler, no stacktraces leaked to user
+app.use((err, req, res) => {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: {}
+    error: {},
   });
 });
 
-module.exports = app;
+export default app;

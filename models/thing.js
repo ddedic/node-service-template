@@ -1,10 +1,11 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+
+const Schema = mongoose.Schema;
 
 var ThingSchema = new Schema({
   name: String,
   info: String,
-  active: Boolean
+  active: Boolean,
 });
 
-module.exports = mongoose.model('Thing', ThingSchema);
+export default mongoose.model('Thing', ThingSchema);
