@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "rimraf ./build && node ./node_modules/.bin/babel . --out-dir ./build --presets es2015 --ignore ./node_modules,./build",
+    "build": "rimraf ./build && babel . --out-dir ./build --presets es2015 --ignore ./node_modules,./build",
     "build:watch": "npm run build -- --watch",
-    "start": "PORT=80 node ./build/bin/www",
-    "start:dev": "NODE_ENV=dev ./node_modules/.bin/nodemon ./build/bin/www.js --watch ./build/",
+    "start": "cross-env PORT=80 node ./build/bin/www",
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./build/bin/www.js --watch ./build/",
     "test": "mocha --recursive ./build/test"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
+    "cross-env": "^1.0.7",
     "debug": "^2.2.0",
     "express": "^4.13.4",
     "lodash": "^4.4.0",
