@@ -52,7 +52,7 @@ describe('Things API', function () {
     });
   });
 
-  it('create resource on PUT /things/:id', function (done) {
+  it('creates resource on PUT /things/:id', function (done) {
     request({
       method: 'PUT',
       uri: `${SERVER_URI}/things/${thingWithId.id.toString()}`,
