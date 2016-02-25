@@ -64,6 +64,9 @@ Set these environment variables prior to starting server:
 - `NODE_ENV` : Environment in which server is executed, ('dev'|undefined)
 - `DEBUG`: Name of debugging logger
 
+On _Windows_, environment variable is set with `set NODE_ENV=dev`, while on Linux and OSX it's set with  `NODE_ENV=dev`. To address this problem, we're using `cross-env` library in package.json, where environment
+variables are set.
+
 
 ## Editor configuration and linting
 
@@ -71,6 +74,9 @@ Editor configuration is contained in .editorconfig file which helps developers d
 
 Linting is done via [eslint](http://eslint.org/) using Five's [JavaScript style guide](https://github.com/5minutes/javascript).
 
+## Installing packages
+
+Installing packages (either with --save or --save-dev) is locked to exact version with `.npmrc` file. Use `ncu` command to check which packages need to be updated and to update them. Run `npm test` to make sure everything is working after updating packages as it should.
 
 ## Learn more
 
