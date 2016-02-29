@@ -43,7 +43,8 @@ describe('Things API', function () {
       }
 
       // Create HTTP server.
-      const port = app.get('port');
+      const port = 3000;
+      app.set('port', 3000);
       const server = http.createServer(app);
 
       // Event listener for HTTP server "error" event.
