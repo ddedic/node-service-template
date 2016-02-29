@@ -3,20 +3,25 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "rimraf ./build && babel . --out-dir ./build --presets es2015 --ignore ./node_modules,./build",
+    "build": "npm run clean && babel ./ --out-dir ./build --presets es2015 --ignore ./node_modules,./build",
     "build:watch": "npm run build -- --watch",
+    "clean": "rimraf ./build",
+    "lint": "eslint ./ --ignore-pattern build/",
     "start": "cross-env PORT=80 node ./build/bin/www",
-    "start:dev": "cross-env NODE_ENV=dev nodemon ./build/bin/www.js --watch ./build/",
-    "test": "mocha --recursive ./build/test"
+    "start:dev": "cross-env DEBUG=skeleton:* NODE_ENV=dev nodemon ./build/bin/www.js --watch ./build/",
+    "test": "cross-env DEBUG=skeleton:* mocha --recursive ./build/test"
   },
   "dependencies": {
     "body-parser": "1.15.0",
     "cross-env": "1.0.7",
     "debug": "2.2.0",
     "express": "4.13.4",
+    "jsonwebtoken": "5.7.0",
     "lodash": "4.5.1",
     "mongoose": "4.4.5",
-    "morgan": "1.7.0"
+    "morgan": "1.7.0",
+    "passport": "0.3.2",
+    "passport-http-bearer": "1.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.5.1",
