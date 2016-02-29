@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import normalizePort from './helpers/normalizePort';
 import favicon from './middlewares/favicon';
 import logger from './middlewares/logger';
 
@@ -10,9 +9,6 @@ const app = express();
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
-
-// Get port from environment and store in Express.
-app.set('port', normalizePort(process.env.PORT || '3000'));
 
 // Register routes
 app.use('/', require('./routes'));
