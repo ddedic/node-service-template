@@ -5,6 +5,6 @@ export default () => {
     return logger('dev');
   }
 
-  // TODO: implement production logger
+  // TODO: Tenodi - implement production logger
   return (req, res, next) => next();
 };

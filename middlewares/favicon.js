@@ -6,5 +6,5 @@ export default () => (req, res, next) => {
     return res.status(404).end();
   }
 
-  next();
+  return next();
 };
