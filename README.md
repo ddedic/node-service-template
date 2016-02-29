@@ -54,6 +54,12 @@ npm test
 ```
 
 Run tests for project.
+
+```
+npm run lint
+```
+
+Check code style commit.
  
  
 ## Environment variables
@@ -82,3 +88,5 @@ Installing packages (either with --save or --save-dev) is locked to exact versio
 
 - [ECMAScript 6 features](https://github.com/lukehoban/es6features) ([pretty print](https://babeljs.io/docs/learn-es2015/))
 - [Babel handbook](https://github.com/thejameskyle/babel-handbook)
+- [JWT](http://jwt.io/introduction/)
+- [Passport](http://passportjs.org/docs) and [passport-http-bearer](https://github.com/jaredhanson/passport-http-bearer)
