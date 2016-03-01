@@ -1,7 +1,22 @@
 import express from 'express';
+import { Serializer, Deserializer } from 'jsonapi-serializer';
+
 import Thing from '../models/thing';
 
 const router = new express.Router();
+
+// (De)serialization should be moved to separate middleware.
+// TODO: matej - find the cleanest way to do it.
+
+const serializer = new Serializer('things', {
+  id: '_id',
+  attributes: ['name', 'info', 'active'],
+  keyForAttribute: 'camelCase',
+  pluralizeType: false,
+});
+
+const deserializer = new Deserializer();
+
 
 function generateNotFoundError() {
   const err = new Error('Resource Not Found');
@@ -14,7 +29,7 @@ router.get('/', (req, res, next) => {
   Thing.find((err, things) => {
     if (err) return next(err);
 
-    return res.json(things);
+    return res.json(serializer.serialize(things));
   });
 });
 
@@ -24,25 +39,33 @@ router.get('/:thingsId', (req, res, next) => {
     if (err) return next(err);
     if (!thing) return next(generateNotFoundError());
 
-    return res.send(thing);
+    return res.json(serializer.serialize(thing));
   });
 });
 
 // POST /things
 router.post('/', (req, res, next) => {
-  Thing.create(req.body, (err, thing) => {
+  deserializer.deserialize(req.body, (err, result) => {
     if (err) return next(err);
 
-    return res.status(201).send(thing);
+    return Thing.create(result, (dbError, thing) => {
+      if (dbError) return next(dbError);
+
+      return res.json(serializer.serialize(thing));
+    });
   });
 });
 
-// PUT /things/:thingsId
-router.put('/:thingsId', (req, res, next) => {
-  Thing.update({ _id: req.params.thingsId }, req.body, { upsert: true }, (err) => {
+// PUT /things/:id
+router.put('/:id', (req, res, next) => {
+  deserializer.deserialize(req.body, (err, result) => {
     if (err) return next(err);
 
-    return res.status(200).end();
+    return Thing.update({ _id: req.body.id }, result, { upsert: true }, (dbError) => {
+      if (dbError) return next(dbError);
+
+      return res.status(200).end();
+    });
   });
 });
 
