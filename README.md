@@ -66,11 +66,11 @@ Check code style commit.
 
 Set these environment variables prior to starting server: 
 
-- `PORT`: Port of the server, defaults to `3000`
-- `NODE_ENV` : Environment in which server is executed, ('dev'|undefined)
+- `PORT`: Port of the server. If not set, it defaults to `3000`
+- `NODE_ENV` : Environment in which server is executed, ('development'|'production'). If not set, it defaults to 'development'.
 - `DEBUG`: Name of debugging logger
 
-On _Windows_, environment variable is set with `set NODE_ENV=dev`, while on Linux and OSX it's set with  `NODE_ENV=dev`. To address this problem, we're using `cross-env` library in package.json, where environment
+On _Windows_, environment variable is set with `set NODE_ENV=development`, while on Linux and OSX it's set with  `NODE_ENV=development`. To address this problem, we're using `cross-env` library in package.json, where environment
 variables are set.
 
 

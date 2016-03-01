@@ -2,13 +2,17 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import favicon from './middlewares/favicon';
 import logger from './middlewares/logger';
+import auth from './middlewares/auth';
 
 const app = express();
 
-// Middlwares
+// Set authenticatoin
+
+// Middlewares
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
+app.use(auth);
 
 // Register routes
 app.use('/', require('./routes'));
@@ -22,7 +26,7 @@ app.use((req, res, next) => {
 
 // Error handlers
 // Development error handler, will print stacktrace
-if (process.env.NODE_ENV === 'dev') {
+if (process.env.NODE_ENV !== 'production') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.json({

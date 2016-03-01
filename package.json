@@ -7,8 +7,8 @@
     "build:watch": "npm run build -- --watch",
     "clean": "rimraf ./build",
     "lint": "eslint ./ --ignore-pattern build/",
-    "start": "cross-env PORT=80 node ./build/bin/www",
-    "start:dev": "cross-env DEBUG=skeleton:* NODE_ENV=dev nodemon ./build/bin/www.js --watch ./build/",
+    "start": "cross-env NODE_ENV=production PORT=80 node ./build/bin/www",
+    "start:dev": "cross-env DEBUG=skeleton:* nodemon ./build/bin/www.js --watch ./build/",
     "test": "cross-env DEBUG=skeleton:* mocha --recursive ./build/test"
   },
   "dependencies": {
