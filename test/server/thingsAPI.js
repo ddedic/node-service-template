@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 import _ from 'lodash';
 import http from 'http';
 import app from '../../app';
-import dbConf from '../../config/data/db';
-import DBConnector from '../../config/db';
+import dbConf from '../../config/db';
+import DBConnector from '../../services/dbConnector';
 
 // TODO: Tenodi - Express' controllers should be mocked:
 // https://www.terlici.com/2015/09/21/node-express-controller-testing.html

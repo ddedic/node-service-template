@@ -1,8 +1,8 @@
 import app from '../app';
 import debug from 'debug';
 import http from 'http';
-import dbConf from '../config/data/db';
-import DBConnector from '../config/db';
+import dbConf from '../config/db';
+import DBConnector from '../services/dbConnector';
 
 const log = debug('skeleton:server');
 

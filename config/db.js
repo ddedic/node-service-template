@@ -1,45 +1,15 @@
-import mongoose from 'mongoose';
-import debug from 'debug';
+const conf = {
+  dbName: 'myDb',
+  host: 'localhost',
+  user: '',
+  password: '',
+  port: 27017,
 
-const log = debug('skeleton:server');
+  getURI: () => {
+    const port = conf.port ? `:${conf.port}` : '';
+    const login = conf.user ? `${conf.user}:${conf.password}:@` : '';
+    return `mongodb://${login}${conf.host}${port}/${conf.dbName}`;
+  },
+};
 
-export default class {
-  constructor(dbConf) {
-    this.dbConf = dbConf;
-    this.opts = {
-      db: {
-        safe: true,
-      },
-    };
-    this.connection = mongoose.createConnection();
-  }
-
-  // Connect to database
-  connect(cb) {
-    mongoose.connect(this.dbConf.getURI(), this.opts, (err) => {
-      if (err) {
-        log(`ERROR connecting to: ${this.dbConf.getURI()}. ${err}`);
-        cb(new Error('Error while connecting to database.'));
-      } else {
-        log(`Successfully connected to: ${this.dbConf.getURI()}`);
-        cb();
-      }
-    });
-  }
-
-  // Drop database
-  dropDB(cb) {
-    mongoose.connection.db.dropDatabase(() => {
-      log('Database is dropped.');
-      cb();
-    });
-  }
-
-  // Disconnect from database
-  disconnect(cb) {
-    mongoose.disconnect(() => {
-      log('All connections are disconnected');
-      cb();
-    });
-  }
-}
+export default conf;
