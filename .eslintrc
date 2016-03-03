@@ -1,0 +1,19 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-empty-label": 0,
+    "space-before-keywords": 0,
+    "space-after-keywords": 0,
+    "space-return-throw-case": 0,
+    "no-iterator": 0,
+    "no-console": 0,
+  }
+}

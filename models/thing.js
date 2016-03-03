@@ -1,12 +1,14 @@
-'use strict';
+import mongoose from 'mongoose';
 
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var ThingSchema = new Schema({
+// TODO: Tenodi - Research if we should add strict: 'throw' option to produce
+// errors when values passed to model constructor are not specified in schema.
+// http://mongoosejs.com/docs/guide.html#strict
+const ThingSchema = new Schema({
   name: String,
   info: String,
-  active: Boolean
+  active: Boolean,
 });
 
-module.exports = mongoose.model('Thing', ThingSchema);
+export default mongoose.model('Thing', ThingSchema);
