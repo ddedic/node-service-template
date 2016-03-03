@@ -18,9 +18,9 @@ router.get('/', (req, res, next) => {
   });
 });
 
-// GET /things/:id
-router.get('/:id', (req, res, next) => {
-  Thing.findById(req.params.id, (err, thing) => {
+// GET /things/:thingsId
+router.get('/:thingsId', (req, res, next) => {
+  Thing.findById(req.params.thingsId, (err, thing) => {
     if (err) return next(err);
     if (!thing) return next(generateNotFoundError());
 
@@ -37,18 +37,18 @@ router.post('/', (req, res, next) => {
   });
 });
 
-// PUT /things/:id
-router.put('/:id', (req, res, next) => {
-  Thing.update({ _id: req.body.id }, req.body, { upsert: true }, (err) => {
+// PUT /things/:thingsId
+router.put('/:thingsId', (req, res, next) => {
+  Thing.update({ _id: req.params.thingsId }, req.body, { upsert: true }, (err) => {
     if (err) return next(err);
 
     return res.status(200).end();
   });
 });
 
-// DELETE /things/:id
-router.delete('/:id', (req, res, next) => {
-  Thing.findByIdAndRemove(req.params.id, (err) => {
+// DELETE /things/:thingsId
+router.delete('/:thingsId', (req, res, next) => {
+  Thing.findByIdAndRemove(req.params.thingsId, (err) => {
     if (err) return next(err);
 
     return res.status(204).end();
