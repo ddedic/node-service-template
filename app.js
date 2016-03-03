@@ -2,17 +2,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import favicon from './middlewares/favicon';
 import logger from './middlewares/logger';
-import auth from './middlewares/auth';
 
 const app = express();
-
-// Set authenticatoin
 
 // Middlewares
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
-app.use(auth);
 
 // Register routes
 app.use('/', require('./routes'));
