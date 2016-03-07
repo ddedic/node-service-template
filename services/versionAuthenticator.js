@@ -13,8 +13,8 @@ export default class extends serviceAuthenticator {
   static authenticate(payload) {
     log('Version Authenticator is authenticating payload.');
     const version = payload.inv.v;
-    const cache = new CacheConnector(cacheConfig);
-    const cachedSub = cache.get(payload.sub);
+    const cacheConnector = new CacheConnector(cacheConfig);
+    const cachedSub = cacheConnector.get(payload.sub);
 
     // Version Authenticator requests version in payload and is used
     // only when the invalidation object for subject has already been
@@ -39,7 +39,7 @@ export default class extends serviceAuthenticator {
       if (version < cachedSub.v) return Promise.reject(new Error('Version mismatch'));
       else if (version === cachedSub.v) return Promise.resolve(payload);
 
-      cache.del(payload.sub);
+      cacheConnector.del(payload.sub);
     }
 
     // For other cases, use default authenticator

@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import favicon from './middlewares/favicon';
 import logger from './middlewares/logger';
-import { authenticate, initialize } from './middlewares/auth';
+import { initializeAuth } from './middlewares/auth';
 
 const app = express();
 
@@ -10,8 +10,7 @@ const app = express();
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
-app.use(initialize());
-app.use(authenticate());
+app.use(initializeAuth());
 
 // Register routes
 app.use('/', require('./routes'));

@@ -6,6 +6,7 @@ import debug from 'debug';
 const log = debug('skeleton:auth');
 
 // validators
+// TODO: Tenodi - test auth middleware and services connected to it
 import serviceAuthenticator from '../services/serviceAuthenticator';
 import versionAuthenticator from '../services/versionAuthenticator';
 
@@ -52,6 +53,23 @@ passport.use(new BearerStrategy((token, done) => {
   });
 }));
 
+// Logic of serialization and deserialization depends whether passport
+// session is enabled. If yes, serialization defines object that will
+// be saved to server session and deserialization how to get user object
+// from serialized object. If not, serialization defines what to put
+// in req.user, while deserialization doesn't happen. To user object,
+// we're passing JWT payload.
+passport.serializeUser((payload, done) => {
+  log('Serialization of the user');
+  done(null, payload);
+});
+
+
+// Middlewares
+
+// Initialize passport
+export const initializeAuth = () => passport.initialize();
+
 // API passport.authenticate() defines 'done' callback. If no custom
 // callback is provided, authenticate defines 'done' callback, which
 // calls req.login() method if session is desired. However, custom
@@ -68,9 +86,26 @@ export const authenticate = () => (req, res, next) => {
 
     log('Authentication was successful.');
 
-    // Call next, since user will be cached during authentication.
-    return next();
+    // Passport uses req.login() method to save user to session and/or
+    // to put user in req.user property. When session is not enabled,
+    // only latter is executed.
+    return req.logIn(decodedPayload, (serializationErr) => {
+      if (serializationErr) {
+        log(`Error while serialization: ${serializationErr}`);
+        return next(serializationErr);
+      }
+
+      log('User has been serialized.');
+      return next();
+    });
   })(req, res, next);
 };
 
-export const initialize = () => passport.initialize();
+// Authenticate services with their subjects.
+// TODO: Tenodi - implement user-defined errors and error handlers
+export const authenticateService = (services) => (req, res, next) => {
+  log(`Services are being authenticated: ${services}`);
+  return services.indexOf(req.user.sub) !== -1 ?
+    next() :
+    next(new Error('Service not authenticated'));
+};
