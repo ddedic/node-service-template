@@ -7,18 +7,16 @@ import { authenticate, initialize, session } from './middlewares/auth';
 
 const app = express();
 
-// Set authenticatoin
-
 // Middlewares
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
 // TODO: Tenodi - make config file for express session
-app.use(expressSession({
-  resave: false,
-  saveUninitialized: true,
-  secret: 'expressecret',
-}));
+//app.use(expressSession({
+//  resave: false,
+//  saveUninitialized: true,
+//  secret: 'expressecret',
+//}));
 app.use(initialize());
 app.use(session());
 app.use(authenticate());

@@ -1,4 +1,4 @@
-// TODO: Tenodi - Change secret before going to production
+// TODO: Tenodi - Agree on unique secret
 export default {
   secret: 'secret',
   algorithms: ['HS256'],
