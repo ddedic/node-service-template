@@ -14,8 +14,8 @@ const validators = {
   v: versionAuthenticator,
 };
 
-// Passport strategy (BearerStrategy in this case) is passed a verify
-// callback. Purpose of a verify callback is to find the user that
+// Passport strategy (BearerStrategy in this case) is passed a "verify
+// callback". Purpose of a verify callback is to find the user that
 // possesses a set of credentials. In our case, verify if JWT token is
 // valid and call the authenticator to find (and cache) the user. After
 // this process is over, callback 'done' is called. Implementation of
@@ -52,43 +52,25 @@ passport.use(new BearerStrategy((token, done) => {
   });
 }));
 
-passport.serializeUser((user, done) => {
-  // TODO: Tenodi - implement own cache to serialize/deserialize
-  log('Serialization');
-  log(user);
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  log('Deserialization');
-  log(user);
-
-  // TODO: Tenodi - implement own cache to serialize/deserialize
-  //User.findById(id, function(err, user) {
-  //  done(err, user);
-  //});
-});
-
+// API passport.authenticate() defines 'done' callback. If no custom
+// callback is provided, authenticate defines 'done' callback, which
+// calls req.login() method if session is desired. However, custom
+// callback is provided here, so 'done' callback, i.e. what happens
+// after user is authenticated needs to be specified here. If error
+// happened during authentication, decodedPayload will be set to false.
 export const authenticate = () => (req, res, next) => {
-  passport.authenticate('bearer', (err, decodedPayload, info) => {
-    log('Custom Callback is called.');
-    log(`Session object: ${JSON.stringify(req.session, null, 2)}`);
-    log(decodedPayload);
-    log(err);
-    if (err) return next(err);
+  passport.authenticate('bearer', (err, decodedPayload) => {
+    if (!decodedPayload) {
+      log('Error occurred when authenticating.');
+      log(err);
+      return next(err);
+    }
 
-    // Calls the serialization
-    //req.login(decodedPayload, (err) => {
-    //  log(err);
-    //  log('User is logged');
-    //});
-    next();
+    log('Authentication was successful.');
 
+    // Call next, since user will be cached during authentication.
+    return next();
   })(req, res, next);
 };
 
-//export const initialize = () => (req, res, next) => next();
-export const session = () => (req, res, next) => next();
-
 export const initialize = () => passport.initialize();
-//export const session = () => passport.session();

@@ -1,9 +1,8 @@
 import express from 'express';
-import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import favicon from './middlewares/favicon';
 import logger from './middlewares/logger';
-import { authenticate, initialize, session } from './middlewares/auth';
+import { authenticate, initialize } from './middlewares/auth';
 
 const app = express();
 
@@ -11,14 +10,7 @@ const app = express();
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
-// TODO: Tenodi - make config file for express session
-//app.use(expressSession({
-//  resave: false,
-//  saveUninitialized: true,
-//  secret: 'expressecret',
-//}));
 app.use(initialize());
-app.use(session());
 app.use(authenticate());
 
 // Register routes

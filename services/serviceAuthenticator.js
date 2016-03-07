@@ -23,7 +23,6 @@ export default class {
           Promise.reject(new Error('Error saving subject to cache'));
       }, err => {
         // TODO: Tenodi - implement user-defined errors and error handlers
-
         log(`Error when verifying token: ${err}`);
         return Promise.reject(err);
       });
