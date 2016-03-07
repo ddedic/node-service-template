@@ -9,6 +9,7 @@
     "space-before-keywords": 0,
     "space-after-keywords": 0,
     "space-return-throw-case": 0,
-    "no-iterator": 0
+    "no-iterator": 0,
+    "no-unused-vars": 1
   }
 }
