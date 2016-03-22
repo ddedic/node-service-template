@@ -10,8 +10,9 @@ const log = debug('skeleton:auth');
 import serviceAuthenticator from '../services/serviceAuthenticator';
 import versionAuthenticator from '../services/versionAuthenticator';
 
+// Define authenticators for specific type of validation
+const defaultValidator = serviceAuthenticator;
 const validators = {
-  _: serviceAuthenticator,
   v: versionAuthenticator,
 };
 
@@ -37,9 +38,9 @@ passport.use(new BearerStrategy((token, done) => {
     // is found, call default one, under '_' key.
     const invalidation = decodedPayload.inv;
     if (invalidation) {
-      const validatorType = invalidation.typ in validators ? invalidation.typ : '_';
+      const validator = validators[invalidation.typ] || defaultValidator;
 
-      return validators[validatorType]
+      return validator
         .authenticate(decodedPayload)
         .then(data => {
           done(null, data);
