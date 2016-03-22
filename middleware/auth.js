@@ -26,7 +26,7 @@ const validators = {
 passport.use(new BearerStrategy((token, done) => {
   // Verify JWT token
   jwt.verify(token, jwtConf.secret, {
-    algorithms: jwt.algorithms,
+    algorithms: [jwt.algorithm],
     issuer: jwt.issuer,
   }, (error, decodedPayload) => {
     if (error) return done(error);
