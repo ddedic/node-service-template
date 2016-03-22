@@ -1,4 +1,4 @@
-import CacheConnector from './cacheConnector';
+import Cache from './cache';
 import cacheConfig from '../config/cache';
 import AuthClient from './authClient';
 import authServiceConfig from '../config/authService';
@@ -13,8 +13,8 @@ export default class {
     return authClient
       .verifyToken(payload)
       .then(serverPayload => {
-        const cacheConnector = new CacheConnector(cacheConfig);
-        const success = cacheConnector.set(serverPayload.sub, serverPayload.inv);
+        const cache = new Cache(cacheConfig);
+        const success = cache.set(serverPayload.sub, serverPayload.inv);
         log(`Saving invalidation to cache for subject: ${success}`);
 
         // TODO: Tenodi - implement user-defined errors and error handlers
