@@ -1,7 +1,7 @@
 import express from 'express';
 import debug from 'debug';
 import CacheConnector from '../services/cacheConnector';
-import { authenticateService } from '../middlewares/auth';
+import { authenticateService } from '../middleware/auth';
 import authServiceConfig from '../config/authService';
 
 const log = debug('skeleton:routes');

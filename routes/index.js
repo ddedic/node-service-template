@@ -1,6 +1,6 @@
 import express from 'express';
 import debug from 'debug';
-import { authenticate } from '../middlewares/auth';
+import { authenticate } from '../middleware/auth';
 
 const log = debug('skeleton:routes');
 const router = new express.Router();
