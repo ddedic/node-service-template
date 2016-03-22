@@ -68,7 +68,7 @@ passport.serializeUser((payload, done) => {
 // Middlewares
 
 // Initialize passport
-export const initializeAuth = () => passport.initialize();
+export default () => passport.initialize();
 
 // API passport.authenticate() defines 'done' callback. If no custom
 // callback is provided, authenticate defines 'done' callback, which
