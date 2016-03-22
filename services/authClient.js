@@ -1,4 +1,8 @@
 import debug from 'debug';
+import jwt from 'jsonwebtoken';
+import request from 'request';
+import jwtConfig from '../config/jwt';
+
 const log = debug('skeleton:auth');
 
 export default class {
@@ -25,8 +29,31 @@ export default class {
 
   verifyToken(payload) {
     log('Auth client is verifying token.');
-    // TODO: Tenodi - implement token validation as request to authentication service
 
-    return Promise.resolve(this.mockedPayload);
+    // Generate token
+    const token = jwt.sign(payload, jwtConfig.secret, { algorithm: jwt.algorithm });
+
+    // Verify token
+    const requestBody = {
+      meta: {
+        authHeaderScheme: 'Bearer',
+        authHeaderToken: token,
+      },
+    };
+
+    return new Promise((resolve, reject) => {
+      request({
+        method: 'PUT',
+        uri: `${this.authServiceConfig.url}/v1/validate-auth-token`,
+        json: true,
+        body: requestBody,
+      }, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(payload);
+        }
+      });
+    });
   }
 }
