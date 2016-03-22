@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import favicon from './middlewares/favicon';
-import logger from './middlewares/logger';
-import { initializeAuth } from './middlewares/auth';
+import favicon from './middleware/favicon';
+import logger from './middleware/logger';
+import auth from './middleware/auth';
 
 const app = express();
 
@@ -10,7 +10,7 @@ const app = express();
 app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
-app.use(initializeAuth());
+app.use(auth());
 
 // Register routes
 app.use('/', require('./routes'));
