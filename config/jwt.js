@@ -1,5 +1,6 @@
+// TODO: Tenodi - generate random secret and synchronize with other services
 export default {
-  secret: 'dm1o39DN@!dalCN@23daj02d.;a1',
+  secret: 'secret',
   algorithms: ['HS256'],
   issuer: 'shoutem',
 };
