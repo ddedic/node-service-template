@@ -5,14 +5,14 @@ import debug from 'debug';
 const log = debug('skeleton:auth');
 
 // Version Authenticator is used invalidation value of:
-// "inv": {
+// "vsi": {
 //   "typ": "v"
 //   "v": 12345
 // }
 export default class extends serviceAuthenticator {
   static authenticate(payload) {
     log('Version Authenticator is authenticating payload.');
-    const version = payload.inv.v;
+    const version = payload.vsi.v;
     const cache = new Cache(cacheConfig);
     const cachedSub = cache.get(payload.sub);
 
@@ -20,7 +20,7 @@ export default class extends serviceAuthenticator {
     // only when the invalidation object for subject has already been
     // cached.
     // Refuse authenticating payload which has "v" as "typ"
-    // and doesn't have the needed property, "v",  inside "inv".
+    // and doesn't have the needed property, "v",  inside "vsi".
 
     // TODO: Tenodi - implement user-defined errors and error handlers
     if (!version) Promise.reject(new Error('Version not provided for authenticator'));
@@ -46,7 +46,7 @@ export default class extends serviceAuthenticator {
     return super
       .authenticate(payload)
       .then(serverPayload => {
-        const success = cache.set(serverPayload.sub, serverPayload.inv);
+        const success = cache.set(serverPayload.sub, serverPayload.vsi);
         log(`Saving invalidation to cache for subject: ${success}`);
 
         // TODO: Tenodi - implement user-defined errors and error handlers

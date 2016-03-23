@@ -3,18 +3,33 @@ import BearerStrategy from 'passport-http-bearer';
 import jwt from 'jsonwebtoken';
 import jwtConf from '../config/jwt.js';
 import debug from 'debug';
+import authConfig from '../config/auth';
 const log = debug('skeleton:auth');
 
-// validators
+// authenticators
 // TODO: Tenodi - test auth middleware and services connected to it
 import serviceAuthenticator from '../services/serviceAuthenticator';
 import versionAuthenticator from '../services/versionAuthenticator';
 
 // Define authenticators for specific type of validation
 const defaultValidator = serviceAuthenticator;
-const validators = {
+const authenticators = {
   v: versionAuthenticator,
 };
+
+// Verify Content of JWT token. This function checks if issuer and realm
+// are good. It also checks if subject has correct user type set.
+function verifyContentJWT(payload) {
+  log('Verifying JWT content.');
+  // TODO: Tenodi - implement user-defined errors and error handlers
+  if (payload.iss === authConfig.jwt.iss) return new Error('JWT issuer is not correct');
+  if (payload.rlm === authConfig.jwt.rlm) return new Error('JWT realm is not correct');
+  if (authConfig.jwt.subTypes.some((currType) => payload.sub.indexOf(`${currType}:`) === 0)) {
+    return new Error('JWT subject type is not correct');
+  }
+
+  return null;
+}
 
 // Passport strategy (BearerStrategy in this case) is passed a "verify
 // callback". Purpose of a verify callback is to find the user that
@@ -24,24 +39,27 @@ const validators = {
 // 'done' callback is defined in callback of passport.authenticate()
 // method.
 passport.use(new BearerStrategy((token, done) => {
-  // Verify JWT token
+  // Verify JWT token signature
   jwt.verify(token, jwtConf.secret, {
     algorithms: [jwt.algorithm],
-    issuer: jwt.issuer,
+    issuer: authConfig.jwt.iss,
   }, (error, decodedPayload) => {
     if (error) return done(error);
-    if (verifyContentJWT(decodedPayload))
+
+    // Verify JWT content
+    const jwtContentError = verifyContentJWT(decodedPayload);
+    if (jwtContentError) return done(jwtContentError);
 
     log('Verification of JWT succeeded.');
     log(`Payload: ${JSON.stringify(decodedPayload, null, 2)}`);
 
     // Call responsible authenticator to find (and cache) the user. If none
     // is found, call default one, under '_' key.
-    const invalidation = decodedPayload.inv;
+    const invalidation = decodedPayload.vsi;
     if (invalidation) {
-      const validator = validators[invalidation.typ] || defaultValidator;
+      const authenticator = authenticators[invalidation.typ] || defaultValidator;
 
-      return validator
+      return authenticator
         .authenticate(decodedPayload)
         .then(data => {
           done(null, data);
@@ -60,18 +78,14 @@ passport.use(new BearerStrategy((token, done) => {
 // be saved to server session and deserialization how to get user object
 // from serialized object. If not, serialization defines what to put
 // in req.user, while deserialization doesn't happen. To user object,
-// we're passing JWT payload.
+// we're id from JWT "usr" and acl from JWT "acl".
 passport.serializeUser((payload, done) => {
   log('Serialization of the user');
-  done(null, payload);
+  done(null, {
+    id: payload.usr,
+    acl: payload.acl,
+  });
 });
-
-
-// Verify Content of JWT token. This function checks if issuer and realm
-// are good. It also checks if subject has correct user type set.
-function verifyContentJWT(payload) {
-
-}
 
 
 // Middlewares
