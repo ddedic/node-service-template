@@ -30,6 +30,7 @@ passport.use(new BearerStrategy((token, done) => {
     issuer: jwt.issuer,
   }, (error, decodedPayload) => {
     if (error) return done(error);
+    if (verifyContentJWT(decodedPayload))
 
     log('Verification of JWT succeeded.');
     log(`Payload: ${JSON.stringify(decodedPayload, null, 2)}`);
@@ -64,6 +65,13 @@ passport.serializeUser((payload, done) => {
   log('Serialization of the user');
   done(null, payload);
 });
+
+
+// Verify Content of JWT token. This function checks if issuer and realm
+// are good. It also checks if subject has correct user type set.
+function verifyContentJWT(payload) {
+
+}
 
 
 // Middlewares

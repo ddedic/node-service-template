@@ -2,7 +2,7 @@ import express from 'express';
 import debug from 'debug';
 import Cache from '../services/cache';
 import { authenticateService } from '../middleware/auth';
-import authServiceConfig from '../config/authService';
+import authConfig from '../config/auth';
 
 const log = debug('skeleton:routes');
 const router = new express.Router();
@@ -13,7 +13,7 @@ const router = new express.Router();
 // subject (service:authentication) to JWT. If authentication has passed,
 // we need to check the subject.
 // TODO: Tenodi - specify authentication for services in API specs
-router.post('/invalidate', authenticateService([authServiceConfig.sub]), (req, res, next) => {
+router.post('/invalidate', authenticateService([authConfig.authService.sub]), (req, res, next) => {
   log('Invalidating token');
 
   if (!req.body.sub) {

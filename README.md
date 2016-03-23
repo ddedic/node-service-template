@@ -23,6 +23,14 @@ npm test
 npm start
 ```
 
+## Before you go live
+As this is only skeleton project, there are few things to change or implement before you start using it:
+ 
+- Implement which subject types are valid in JWT token.
+- Change default values in `config/` folder to reflect your service.
+
+All these things are denoted in the code with `TODO: {PersonWhoPutTODO} -` so they should be easy to find, except the task to change default values, since they're all held in `config/` folder.
+
 ## Commands
 
 ```
@@ -69,6 +77,7 @@ Set these environment variables prior to starting server:
 - `PORT`: Port of the server. If not set, it defaults to `3000`
 - `NODE_ENV` : Environment in which server is executed, ('development'|'production'). If not set, it defaults to 'development'.
 - `DEBUG`: Name of debugging logger
+- `AUTHENTICATION_REALM`: Authentication realm in which the JWT token should be valid
 
 On _Windows_, environment variable is set with `set NODE_ENV=development`, while on Linux and OSX it's set with  `NODE_ENV=development`. To address this problem, we're using `cross-env` library in package.json, where environment
 variables are set.
