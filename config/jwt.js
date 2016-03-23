@@ -2,5 +2,4 @@
 export default {
   secret: 'secret',
   algorithm: 'HS256',
-  issuer: 'shoutem',
 };

@@ -12,8 +12,11 @@ export default {
     url: 'https://api.balerion.sauros.hr',
     sub: 'service:authentication',
   },
-  rlm: 'app-builder',
-  subTypes: [
-    'user',
-  ],
+  jwt: {
+    rlm: 'app-builder',
+    subTypes: [
+      'user',
+    ],
+    iss: 'shoutem',
+  },
 };
