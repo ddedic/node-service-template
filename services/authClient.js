@@ -6,26 +6,9 @@ import jwtConfig from '../config/jwt';
 const log = debug('skeleton:auth');
 
 export default class {
-  constructor(authServiceConfig) {
-    this.authServiceConfig = authServiceConfig;
-    this.mockedPayload = {
-      iss: 'shoutem',
-      sub: 'usr:12345',
-      usr: 'user@shoutem.com',
-      iat: 123635256,
-      rlm: 'app-builder',
-      prm: [
-        'cms-w',
-        'cms-r',
-        'ext-r',
-      ],
-      inv: {
-        typ: 'v',
-        v: 12345,
-      },
-    };
+  constructor(authServiceUrl) {
+    this.authServiceUrl = authServiceUrl;
   }
-
 
   verifyToken(payload) {
     log('Auth client is verifying token.');
@@ -44,7 +27,7 @@ export default class {
     return new Promise((resolve, reject) => {
       request({
         method: 'PUT',
-        uri: `${this.authServiceConfig.url}/v1/validate-auth-token`,
+        uri: `${this.authServiceUrl}/v1/validate-auth-token`,
         json: true,
         body: requestBody,
       }, (error) => {
