@@ -9,7 +9,8 @@
     "lint": "eslint ./ --ignore-pattern build/",
     "start": "cross-env NODE_ENV=production PORT=80 node ./build/bin/www",
     "start:dev": "cross-env DEBUG=skeleton:* nodemon ./build/bin/www.js --watch ./build/",
-    "test": "cross-env DEBUG=skeleton:* mocha --recursive ./build/test"
+    "test": "cross-env mocha --recursive ./build/test",
+    "test:debug": "cross-env DEBUG=skeleton:* mocha --recursive ./build/test"
   },
   "dependencies": {
     "body-parser": "1.15.0",
