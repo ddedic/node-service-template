@@ -58,6 +58,12 @@ describe('Things API', function () {
     });
   });
 
+  after(function (done) {
+    dbConnector.dropDB(() => {
+      dbConnector.disconnect(done);
+    });
+  });
+
   it('reads resources on GET /things', function (done) {
     request({
       method: 'GET',
@@ -122,12 +128,6 @@ describe('Things API', function () {
         assert.equal(response.statusCode, 204, 'Server did not respond with 204');
         done();
       });
-    });
-  });
-
-  after(function (done) {
-    dbConnector.dropDB(() => {
-      dbConnector.disconnect(done);
     });
   });
 });
