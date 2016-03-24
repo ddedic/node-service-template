@@ -1,10 +1,8 @@
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import _ from 'lodash';
 import sinon from 'sinon';
 import Cache from '../../services/cache';
 import VersionValidator from '../../services/VersionValidator';
-import RemoteApiValidator from '../../services/RemoteApiValidator';
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
