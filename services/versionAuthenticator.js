@@ -1,4 +1,5 @@
 import Cache from './cache';
+import cacheConfig from '../config/cache';
 import serviceAuthenticator from '../services/serviceAuthenticator';
 import debug from 'debug';
 const log = debug('skeleton:auth');
@@ -45,7 +46,7 @@ export default class extends serviceAuthenticator {
     return super
       .authenticate(payload)
       .then(serverPayload => {
-        const success = cache.set(serverPayload.sub, serverPayload.vsi);
+        const success = cache.set(serverPayload.sub, serverPayload.vsi, cacheConfig.vsiTTL);
         log(`Saving invalidation to cache for subject: ${success}`);
 
         // TODO: Tenodi - implement user-defined errors and error handlers
