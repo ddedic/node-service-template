@@ -1,10 +1,10 @@
 import * as chai from 'chai';
-import chaiAsPormised from 'chai-as-promised';
+import chaiAsPromised from 'chai-as-promised';
 import AuthClient from '../../services/authClient';
 import authConfig from '../../config/auth';
 import nock from 'nock';
 
-chai.use(chaiAsPormised);
+chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe('Authentication Client', function () {
