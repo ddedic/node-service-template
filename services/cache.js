@@ -5,17 +5,29 @@
 //  - https://www.npmjs.com/package/memcached - memcached API client
 //  - https://www.npmjs.com/package/memory-cache - not maintained
 import NodeCache from 'node-cache';
+import cacheConfig from '../config/cache';
 
-let instance = null;
 
-export default class {
-  constructor(cacheConfig) {
-    if (!instance) {
-      instance = this;
-      this.cache = new NodeCache({ stdTTL: cacheConfig.ttl });
+// Singleton
+const singleton = Symbol();
+const singletonEnforcer = Symbol();
+
+// Proxies requests to the cache
+export default class Cache {
+
+  // `cacheConfig` is the configuration information for Cache
+  constructor(enforcer) {
+    if (enforcer !== singletonEnforcer) throw new Error('Cannot construct singleton');
+  }
+
+  static get instance() {
+    if (!this[singleton]) {
+      this[singleton] = new Cache(singletonEnforcer);
+
+      // Set an actual cache
+      this[singleton].cache = new NodeCache({ stdTTL: cacheConfig.ttl });
     }
-
-    return instance;
+    return this[singleton];
   }
 
   set(...args) {
