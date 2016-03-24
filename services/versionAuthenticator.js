@@ -1,5 +1,4 @@
 import Cache from './cache';
-import cacheConfig from '../config/cache';
 import serviceAuthenticator from '../services/serviceAuthenticator';
 import debug from 'debug';
 const log = debug('skeleton:auth');
@@ -13,7 +12,7 @@ export default class extends serviceAuthenticator {
   static authenticate(payload) {
     log('Version Authenticator is authenticating payload.');
     const version = payload.vsi.v;
-    const cache = new Cache(cacheConfig);
+    const cache = Cache.instance;
     const cachedSub = cache.get(payload.sub);
 
     // Version Authenticator requests version in payload and is used

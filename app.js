@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import favicon from './middleware/favicon';
 import logger from './middleware/logger';
 import auth from './middleware/auth';
+import Cache from './services/cache';
 
 const app = express();
 
@@ -11,6 +12,9 @@ app.use(logger());
 app.use(bodyParser.json());
 app.use(favicon());
 app.use(auth());
+
+// Set cache
+app.set('cache', Cache.instance);
 
 // Register routes
 app.use('/', require('./routes'));

@@ -1,6 +1,5 @@
 import express from 'express';
 import debug from 'debug';
-import Cache from '../services/cache';
 import { authenticateService } from '../middleware/auth';
 import authConfig from '../config/auth';
 
@@ -20,7 +19,7 @@ router.post('/invalidate', authenticateService([authConfig.authService.sub]), (r
     return next(new Error('Body misses parameters'));
   }
 
-  const cache = new Cache();
+  const cache = req.app.get('cache');
   cache.del(req.body.sub);
 
   // Delete will never fail. (from node-cache docs)
