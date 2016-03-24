@@ -7,15 +7,12 @@
 import NodeCache from 'node-cache';
 import cacheConfig from '../config/cache';
 
-
 // Singleton
 const singleton = Symbol();
 const singletonEnforcer = Symbol();
 
 // Proxies requests to the cache
 export default class Cache {
-
-  // `cacheConfig` is the configuration information for Cache
   constructor(enforcer) {
     if (enforcer !== singletonEnforcer) throw new Error('Cannot construct singleton');
   }
@@ -25,20 +22,23 @@ export default class Cache {
       this[singleton] = new Cache(singletonEnforcer);
 
       // Set an actual cache
-      this[singleton].cache = new NodeCache({ stdTTL: cacheConfig.ttl });
+      this[singleton].cache = new NodeCache({ stdTTL: cacheConfig.defaultTTL });
     }
     return this[singleton];
   }
 
-  set(...args) {
-    return this.cache.set(...args);
+  // Retrieve value for key, returns undefined if not found or expired, otherwise value
+  get(key) {
+    return this.cache.get(key);
   }
 
-  get(...args) {
-    return this.cache.get(...args);
+  // Store value for key, returns true on success
+  set(key, value, ttl) {
+    return this.cache.set(key, value, ttl);
   }
 
-  del(...args) {
-    return this.cache.del(...args);
+  // Delete value with key, returns the number of deleted entries
+  del(key) {
+    return this.cache.del(key);
   }
 }
