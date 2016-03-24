@@ -1,6 +1,6 @@
 import Cache from './cache';
 import cacheConfig from '../config/cache';
-import RemoteApiValidator from 'remoteApiValidator';
+import RemoteApiValidator from './remoteApiValidator';
 import debug from 'debug';
 const log = debug('skeleton:auth');
 
