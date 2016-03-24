@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 import RemoteApiValidator from '../../services/remoteApiValidator';
-import authClient from '../../services/authClient';
+import AuthClient from '../../services/authClient';
 
 describe('Remote API Validator', function () {
   const msg = 'Ok';
@@ -10,7 +10,7 @@ describe('Remote API Validator', function () {
   };
 
   before(function () {
-    sinon.stub(authClient.prototype, 'verifyToken', () => msg);
+    sinon.stub(AuthClient.prototype, 'verifyToken', () => msg);
   });
 
   after(function () {
