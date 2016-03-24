@@ -6,15 +6,14 @@ import debug from 'debug';
 import authConfig from '../config/auth';
 const log = debug('skeleton:auth');
 
-// authenticators
-// TODO: Tenodi - test auth middleware and services connected to it
-import serviceAuthenticator from '../services/serviceAuthenticator';
-import versionAuthenticator from '../services/versionAuthenticator';
+// validators
+import RemoteApiValidator from '../services/remoteApiValidator';
+import VersionValidator from '../services/versionValidator';
 
-// Define authenticators for specific type of validation
-const defaultValidator = serviceAuthenticator;
-const authenticators = {
-  v: versionAuthenticator,
+// Define validators for specific type of validation
+const defaultValidator = RemoteApiValidator;
+const validators = {
+  v: VersionValidator,
 };
 
 // Verify Content of JWT token. This function checks if issuer and realm
@@ -53,13 +52,13 @@ passport.use(new BearerStrategy((token, done) => {
     log('Verification of JWT succeeded.');
     log(`Payload: ${JSON.stringify(decodedPayload, null, 2)}`);
 
-    // Call responsible authenticator to find (and cache) the user. If none
+    // Call responsible validator to find (and cache) the user. If none
     // is found, call default one, under '_' key.
     const invalidation = decodedPayload.vsi;
     if (invalidation) {
-      const authenticator = authenticators[invalidation.typ] || defaultValidator;
+      const validator = validators[invalidation.typ] || defaultValidator;
 
-      return authenticator
+      return validator
         .authenticate(decodedPayload)
         .then(data => {
           done(null, data);

@@ -1,6 +1,6 @@
 import Cache from './cache';
 import cacheConfig from '../config/cache';
-import serviceAuthenticator from '../services/serviceAuthenticator';
+import RemoteApiValidator from 'remoteApiValidator';
 import debug from 'debug';
 const log = debug('skeleton:auth');
 
@@ -9,7 +9,7 @@ const log = debug('skeleton:auth');
 //   "typ": "v"
 //   "v": 12345
 // }
-export default class extends serviceAuthenticator {
+export default class VersionValidator extends RemoteApiValidator {
   static authenticate(payload) {
     log('Version Authenticator is authenticating payload.');
     const version = payload.vsi.v;
