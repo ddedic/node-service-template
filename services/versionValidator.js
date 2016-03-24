@@ -9,7 +9,7 @@ const log = debug('skeleton:auth');
 //   "typ": "v"
 //   "v": 12345
 // }
-export default class VersionValidator extends RemoteApiValidator {
+export default class VersionValidator {
   static authenticate(payload) {
     log('Version Authenticator is authenticating payload.');
     const version = payload.vsi.v;
@@ -42,8 +42,9 @@ export default class VersionValidator extends RemoteApiValidator {
       cache.del(payload.sub);
     }
 
-    // For other cases, use default authenticator
-    return super
+    // For other cases, use default validator
+    const defaultValidator = RemoteApiValidator;
+    return defaultValidator
       .authenticate(payload)
       .then(serverPayload => {
         const success = cache.set(serverPayload.sub, serverPayload.vsi, cacheConfig.vsiTTL);
