@@ -23,7 +23,7 @@ export default class VersionValidator {
     // and doesn't have the needed property, "v",  inside "vsi".
 
     // TODO: Tenodi - implement user-defined errors and error handlers
-    if (!version) Promise.reject(new Error('Version not provided for authenticator'));
+    if (!version) return Promise.reject(new Error('Version not provided for authenticator'));
 
     // JWT subject is cached
     if (cachedSub) {
