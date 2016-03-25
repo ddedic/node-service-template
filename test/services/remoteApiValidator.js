@@ -14,11 +14,10 @@ describe('Remote API Validator', function () {
   });
 
   after(function () {
-    sinon.restore();
+    AuthClient.prototype.verifyToken.restore();
   });
 
-  it('calls auth client and returns its value', function (done) {
+  it('calls auth client and returns its value', function () {
     assert.equal(msg, RemoteApiValidator.authenticate(mockedPayload));
-    done();
   });
 });

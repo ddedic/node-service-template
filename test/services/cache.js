@@ -8,35 +8,31 @@ describe('Cache', function () {
     something: 'something',
   };
 
-  it('sets value for key', function (done) {
+  it('sets value for key', function () {
     assert.isTrue(cache.set('key1', testObject));
-    done();
   });
 
-  it('gets set value for key', function (done) {
+  it('gets set value for key', function () {
     const key = 'key2';
 
     cache.set(key, testObject);
     assert.isTrue(_.isEqual(cache.get(key), testObject));
-    done();
   });
 
-  it('deletes set value for key', function (done) {
+  it('deletes set value for key', function () {
     const key = 'key3';
 
     cache.set(key, testObject);
     assert.equal(cache.del(key), 1);
     assert.isUndefined(cache.get(key));
-    done();
   });
 
-  it('shares the instance of Cache', function (done) {
+  it('shares the instance of Cache', function () {
     const key = 'key4';
 
     const tempCache = Cache.instance;
     cache.set(key, testObject);
     assert.isTrue(_.isEqual(tempCache.get(key), testObject));
-    done();
   });
 
   it('deletes the key once ttl expires', function (done) {
