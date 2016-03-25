@@ -21,9 +21,9 @@ const validators = {
 function verifyContentJWT(payload) {
   log('Verifying JWT content.');
   // TODO: Tenodi - implement user-defined errors and error handlers
-  if (payload.iss === authConfig.jwt.iss) return new Error('JWT issuer is not correct');
-  if (payload.rlm === authConfig.jwt.rlm) return new Error('JWT realm is not correct');
-  if (authConfig.jwt.subTypes.some((currType) => payload.sub.indexOf(`${currType}:`) === 0)) {
+  if (payload.iss !== authConfig.jwt.iss) return new Error('JWT issuer is not correct');
+  if (payload.rlm !== authConfig.jwt.rlm) return new Error('JWT realm is not correct');
+  if (!(authConfig.jwt.subTypes.some((currType) => payload.sub.indexOf(`${currType}:`) === 0))) {
     return new Error('JWT subject type is not correct');
   }
 
